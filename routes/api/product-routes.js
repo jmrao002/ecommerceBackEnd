@@ -12,10 +12,13 @@ router.get("/", async (req, res) => {
         {
           model: Category,
           attributes: "category_name",
+          as: "product_category",
         },
         {
           model: Tag,
+          through: ProductTag,
           attributes: "tag_name",
+          as: "product_tags",
         },
       ],
     });
@@ -33,11 +36,13 @@ router.get("/:id", async (req, res) => {
       include: [
         {
           model: Category,
-          attributes: "category_id",
+          attributes: "category_name",
+          as: "product_cateogry",
         },
         {
           model: Tag,
           attributes: "tag_name",
+          as: "product_tags",
         },
       ],
     });

@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
     });
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 
@@ -26,13 +26,12 @@ router.get("/:id", (req, res) => {
       // include its associated Products
       include: {
         model: Product,
-        through: Product,
-        as: "category_id",
+        attributes: "product_id",
       },
     });
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(400).json(err);
   }
 });
 

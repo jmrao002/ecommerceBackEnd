@@ -8,12 +8,11 @@ router.get("/", async (req, res) => {
   try {
     const tagData = await Tag.findAll({
       // include associated Product data
-      include: {
-        model: Product,
-        through: "ProductTag",
-        attributes: "product_name",
-        as: "products_in_tag",
-      },
+      include: [
+        {
+          model: ProductTag,
+        },
+      ],
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -26,12 +25,11 @@ router.get("/:id", async (req, res) => {
   try {
     const tagData = await Tag.findByPk(res.params.id, {
       // include associated Product data
-      include: {
-        model: Product,
-        through: ProductTag,
-        attributes: "product_name",
-        as: "products_in_tag",
-      },
+      include: [
+        {
+          model: ProductTag,
+        },
+      ],
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -54,6 +52,7 @@ router.put("/:id", async (req, res) => {
   try {
     const tagData = await Tag.update(
       {
+        id: req.body.id,
         tag_name: req.body.tag_name,
       },
       {

@@ -8,11 +8,11 @@ router.get("/", async (req, res) => {
   try {
     const categoryData = await Category.findAll({
       //include its associated Products
-      include: {
-        model: Product,
-        attributes: ["product_name"],
-        as: "products_in_category",
-      },
+      include: [
+        {
+          model: Product,
+        },
+      ],
     });
     res.status(200).json(categoryData);
   } catch (err) {
@@ -25,11 +25,11 @@ router.get("/:id", async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       // include its associated Products
-      include: {
-        model: Product,
-        attributes: "product_name",
-        as: products_in_category,
-      },
+      include: [
+        {
+          model: Product,
+        },
+      ],
     });
     res.status(200).json(categoryData);
   } catch (err) {
@@ -52,6 +52,7 @@ router.put("/:id", async (req, res) => {
   try {
     const categoryData = await Category.update(
       {
+        id: req.body.id,
         category_name: req.body.category_name,
       },
       {
@@ -66,7 +67,7 @@ router.put("/:id", async (req, res) => {
     }
     res.status(200).json(categoryData);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 

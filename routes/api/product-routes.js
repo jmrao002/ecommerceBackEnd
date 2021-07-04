@@ -11,9 +11,12 @@ router.get("/", async (req, res) => {
       include: [
         {
           model: Category,
+          attributes: ["category_name"],
         },
         {
-          model: ProductTag,
+          model: Tag,
+          through: ProductTag,
+          attributes: ["tag_name"],
         },
       ],
     });
@@ -26,14 +29,17 @@ router.get("/", async (req, res) => {
 // get one product
 router.get("/:id", async (req, res) => {
   try {
-    const productData = await Product.findByPk(req.params.id, {
+    const productData = await Product.findOne({
+      where: {
+        id: req.params.id,
+      },
       // include associated Category and Tag data
       include: [
         {
           model: Category,
         },
         {
-          model: ProductTag,
+          model: Tag,
         },
       ],
     });
